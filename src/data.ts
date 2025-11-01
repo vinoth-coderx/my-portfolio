@@ -121,6 +121,7 @@ export const portfolioData: PortfolioData = {
       icon: "⚙️",
       items: [
         { name: "React Native", level: 82 },
+        { name: "Expo", level: 85 },
         { name: "Flutter", level: 75 },
         { name: "Node.js", level: 85 },
         { name: "Express.js", level: 83 },
@@ -133,8 +134,11 @@ export const portfolioData: PortfolioData = {
       icon: "🛠️",
       items: [
         { name: "Git & GitHub", level: 88 },
-        { name: "Expo", level: 78 },
-        { name: "React Query", level: 82 },
+        { name: "VS Code", level: 90 },
+        { name: "Postman", level: 85 },
+        { name: "Android Studio", level: 80 },
+        { name: "Xcode", level: 75 },
+
       ],
     },
     {
@@ -215,7 +219,7 @@ export const portfolioData: PortfolioData = {
       title: "Real-time Features",
       description:
         "Implementation of real-time features like chat, audio/video calls, and live updates.",
-      features: ["WebRTC", "Jitsi", "Real-time Chat", "Live Updates"],
+      features: [ "Jitsi", "Real-time Chat", "Live Updates"],
     },
   ],
   projects: [

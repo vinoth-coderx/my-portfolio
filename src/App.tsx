@@ -1,5 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "./data";
 import {
@@ -36,8 +42,8 @@ interface FormData {
   message: string;
 }
 
-// Subtle Professional Background Component
-const ProfessionalBackground: React.FC = () => {
+// Subtle Professional Background Component - Memoized
+const ProfessionalBackground: React.FC = React.memo(() => {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none">
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-950 to-black" />
@@ -53,6 +59,7 @@ const ProfessionalBackground: React.FC = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        style={{ willChange: "transform, opacity" }}
       />
       <motion.div
         className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-green-900/10 rounded-full blur-3xl"
@@ -65,76 +72,83 @@ const ProfessionalBackground: React.FC = () => {
           repeat: Infinity,
           ease: "easeInOut",
         }}
+        style={{ willChange: "transform, opacity" }}
       />
 
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#10b98120_1px,transparent_1px),linear-gradient(to_bottom,#10b98120_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
     </div>
   );
-};
+});
+
+ProfessionalBackground.displayName = "ProfessionalBackground";
 
 // Professional Splash Screen
-const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+const SplashScreen: React.FC<SplashScreenProps> = React.memo(
+  ({ onComplete }) => {
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 2500);
+      return () => clearTimeout(timer);
+    }, [onComplete]);
 
-  return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black"
-    >
-      <div className="text-center">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <div className="relative w-24 h-24 mx-auto">
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl" />
-            <div className="relative w-full h-full flex items-center justify-center">
-              <span className="text-4xl font-bold text-white">
-                {portfolioData.personal.name
-                  ?.split(" ")
-                  .map((name) => name[0])
-                  .join("")}
-              </span>
+    return (
+      <motion.div
+        initial={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black"
+      >
+        <div className="text-center">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
+          >
+            <div className="relative w-24 h-24 mx-auto">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl" />
+              <div className="relative w-full h-full flex items-center justify-center">
+                <span className="text-4xl font-bold text-white">
+                  {portfolioData.personal.name
+                    ?.split(" ")
+                    .map((name) => name[0])
+                    .join("")}
+                </span>
+              </div>
             </div>
-          </div>
-        </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-3xl font-semibold text-white mb-2"
-        >
-          {portfolioData.personal.name}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="text-emerald-500 text-lg"
-        >
-          {portfolioData.personal.title}
-        </motion.p>
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ delay: 0.7, duration: 0.6 }}
-          className="w-32 h-0.5 bg-gradient-to-r from-emerald-600 to-green-600 mx-auto mt-6"
-        />
-      </div>
-    </motion.div>
-  );
-};
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="text-3xl font-semibold text-white mb-2"
+          >
+            {portfolioData.personal.name}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="text-emerald-500 text-lg"
+          >
+            {portfolioData.personal.title}
+          </motion.p>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="w-32 h-0.5 bg-gradient-to-r from-emerald-600 to-green-600 mx-auto mt-6"
+          />
+        </div>
+      </motion.div>
+    );
+  }
+);
 
-// Helper function for social icons
+SplashScreen.displayName = "SplashScreen";
+
+// Helper function for social icons - Memoized
 const getSocialIcon = (platform: string) => {
   switch (platform.toLowerCase()) {
     case "github":
@@ -155,17 +169,13 @@ const getSocialIcon = (platform: string) => {
 };
 
 // Professional Navbar
-const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
+const Navbar: React.FC<NavbarProps> = React.memo(({ activeSection }) => {
   const [scrolled, setScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const navItems: string[] = [
-    "about",
-    "skills",
-    "services",
-    "education",
-    "experience",
-    "contact",
-  ];
+  const navItems: string[] = useMemo(
+    () => ["about", "skills", "services", "education", "experience", "contact"],
+    []
+  );
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -178,7 +188,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -187,13 +197,13 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
     };
   }, [mobileMenuOpen]);
 
-  const scrollToSection = (id: string): void => {
+  const scrollToSection = useCallback((id: string): void => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       setMobileMenuOpen(false);
     }
-  };
+  }, []);
 
   return (
     <>
@@ -201,8 +211,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         className={`fixed top-0 w-full z-40 transition-all duration-300 ${
-          scrolled ? "backdrop-blur-sm" : "bg-transparent"
+          scrolled ? "backdrop-blur-sm bg-black/50" : "bg-transparent"
         }`}
+        style={{ willChange: "transform" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
@@ -210,6 +221,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               whileHover={{ scale: 1.03 }}
               className="cursor-pointer"
               onClick={() => scrollToSection("about")}
+              style={{ willChange: "transform" }}
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-600 to-green-700 rounded-lg flex items-center justify-center shadow-lg">
@@ -227,9 +239,9 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
             </motion.div>
 
             <div className="hidden lg:flex items-center gap-2">
-              {navItems.map((item, index) => (
+              {navItems.map((item) => (
                 <motion.button
-                  key={index}
+                  key={item}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => scrollToSection(item)}
@@ -238,6 +250,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
                       ? "text-white bg-emerald-600 shadow-lg shadow-emerald-600/30"
                       : "text-gray-300 hover:text-white hover:bg-emerald-900/30"
                   }`}
+                  style={{ willChange: "transform" }}
                 >
                   {item}
                 </motion.button>
@@ -325,7 +338,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               <div className="p-6 space-y-2">
                 {navItems.map((item, index) => (
                   <motion.button
-                    key={index}
+                    key={item}
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
@@ -344,15 +357,16 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
               <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-emerald-900/30">
                 <div className="flex gap-4 justify-center">
                   {Object.entries(portfolioData.personal.social).map(
-                    ([platform, url], index) => (
+                    ([platform, url]) => (
                       <motion.a
-                        key={index}
+                        key={platform}
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
                         className="w-10 h-10 rounded-lg bg-gray-900 border border-emerald-900/30 flex items-center justify-center text-gray-400 hover:text-emerald-500 hover:border-emerald-600 transition-all"
+                        style={{ willChange: "transform" }}
                       >
                         {getSocialIcon(platform)}
                       </motion.a>
@@ -366,10 +380,12 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection }) => {
       </AnimatePresence>
     </>
   );
-};
+});
+
+Navbar.displayName = "Navbar";
 
 // Professional About Section
-const Hero: React.FC = () => {
+const Hero: React.FC = React.memo(() => {
   return (
     <section
       id="about"
@@ -398,8 +414,9 @@ const Hero: React.FC = () => {
                   alt="Profile"
                   className="w-full h-auto transform group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
+                  style={{ willChange: "transform" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
               </div>
             </motion.div>
 
@@ -451,7 +468,7 @@ const Hero: React.FC = () => {
                 {Object.entries(portfolioData.personal.social).map(
                   ([platform, url], index) => (
                     <motion.a
-                      key={index}
+                      key={platform}
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -460,6 +477,7 @@ const Hero: React.FC = () => {
                       transition={{ delay: 0.7 + index * 0.1 }}
                       whileHover={{ scale: 1.2, y: -5 }}
                       className="w-12 h-12 rounded-xl bg-gray-900 border border-emerald-900/30 flex items-center justify-center text-gray-400 hover:text-emerald-500 hover:border-emerald-600 transition-all shadow-lg"
+                      style={{ willChange: "transform" }}
                     >
                       {getSocialIcon(platform)}
                     </motion.a>
@@ -478,6 +496,7 @@ const Hero: React.FC = () => {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-900/50 transition-all"
+                  style={{ willChange: "transform" }}
                 >
                   <span>Download Resume</span>
                   <svg
@@ -500,6 +519,7 @@ const Hero: React.FC = () => {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border-2 border-emerald-600 text-emerald-500 rounded-xl font-semibold hover:bg-emerald-600 hover:text-white transition-all"
+                  style={{ willChange: "transform" }}
                 >
                   <span>Get In Touch</span>
                   <FaRocket className="w-4 h-4" />
@@ -511,10 +531,12 @@ const Hero: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Hero.displayName = "Hero";
 
 // Fixed Animated Number Component
-const AnimatedNumber: React.FC<{ value: number }> = ({ value }) => {
+const AnimatedNumber: React.FC<{ value: number }> = React.memo(({ value }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLSpanElement>(null);
@@ -541,6 +563,8 @@ const AnimatedNumber: React.FC<{ value: number }> = ({ value }) => {
               clearInterval(timer);
             }
           }, duration / steps);
+
+          return () => clearInterval(timer);
         }
       },
       { threshold: 0.5 }
@@ -558,10 +582,12 @@ const AnimatedNumber: React.FC<{ value: number }> = ({ value }) => {
   }, [value, hasAnimated]);
 
   return <span ref={elementRef}>{displayValue}+</span>;
-};
+});
+
+AnimatedNumber.displayName = "AnimatedNumber";
 
 // Enhanced Professional Skills Section
-const Skills: React.FC = () => {
+const Skills: React.FC = React.memo(() => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   return (
@@ -620,6 +646,7 @@ const Skills: React.FC = () => {
                     ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-600/30"
                     : "bg-gray-900 text-gray-400 border border-emerald-900/30 hover:text-emerald-500 hover:border-emerald-800/50"
                 }`}
+                style={{ willChange: "transform" }}
               >
                 <span className="text-lg">{skill.icon}</span>
                 <span>{skill.category}</span>
@@ -641,12 +668,13 @@ const Skills: React.FC = () => {
                 {portfolioData.skills[selectedCategory].items.map(
                   (skill, index) => (
                     <motion.div
-                      key={index}
+                      key={`${skill.name}-${index}`}
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.05 }}
                       whileHover={{ y: -5 }}
                       className="bg-gray-900 border border-emerald-900/30 rounded-2xl p-6 hover:border-emerald-800/50 transition-all duration-300 group"
+                      style={{ willChange: "transform" }}
                     >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="text-lg font-semibold text-white group-hover:text-emerald-400 transition-colors">
@@ -725,9 +753,10 @@ const Skills: React.FC = () => {
                     transition: { duration: 0.3 },
                   }}
                   className={`relative bg-gradient-to-br ${stat.bgGradient} border ${stat.borderColor} rounded-2xl p-8 text-center backdrop-blur-sm group overflow-hidden`}
+                  style={{ willChange: "transform" }}
                 >
                   {/* Shine effect on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
 
                   {/* Icon */}
                   <div className={`text-4xl mb-4 ${stat.color} drop-shadow-lg`}>
@@ -753,9 +782,9 @@ const Skills: React.FC = () => {
 
                   {/* Animated dots */}
                   <div className="flex justify-center gap-1 mt-4">
-                    {[1, 2, 3].map((dot, index) => (
+                    {[1, 2, 3].map((dot) => (
                       <motion.div
-                        key={index}
+                        key={dot}
                         className={`w-1 h-1 rounded-full ${stat.color} opacity-50`}
                         animate={{ scale: [1, 1.5, 1] }}
                         transition={{
@@ -774,10 +803,12 @@ const Skills: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Skills.displayName = "Skills";
 
 // Enhanced Services Section
-const Services: React.FC = () => {
+const Services: React.FC = React.memo(() => {
   const services = portfolioData.services;
 
   return (
@@ -831,10 +862,12 @@ const Services: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 whileHover={{ y: -8 }}
                 className="group bg-gray-900 border border-emerald-900/30 rounded-2xl p-8 hover:border-emerald-800/50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-emerald-900/20"
+                style={{ willChange: "transform" }}
               >
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   className="w-16 h-16 bg-gradient-to-br from-emerald-600 to-green-700 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:shadow-lg group-hover:shadow-emerald-900/30 transition-all"
+                  style={{ willChange: "transform" }}
                 >
                   <span className="text-2xl">{service.icon}</span>
                 </motion.div>
@@ -862,15 +895,6 @@ const Services: React.FC = () => {
                     </motion.div>
                   ))}
                 </div>
-                {/* 
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="mt-8 pt-6 border-t border-emerald-900/30"
-                >
-                  <button className="w-full px-6 py-3 bg-transparent border-2 border-emerald-600 text-emerald-500 rounded-xl font-medium hover:bg-emerald-600 hover:text-white transition-all duration-300 text-sm">
-                    Learn More
-                  </button>
-                </motion.div> */}
               </motion.div>
             ))}
           </div>
@@ -878,10 +902,12 @@ const Services: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Services.displayName = "Services";
 
 // New Education Section
-const Education: React.FC = () => {
+const Education: React.FC = React.memo(() => {
   return (
     <section id="education" className="py-24 relative overflow-hidden bg-black">
       <ProfessionalBackground />
@@ -941,10 +967,11 @@ const Education: React.FC = () => {
                   <div className="absolute left-4 md:left-1/2 w-4 h-4 bg-emerald-600 rounded-full border-4 border-black transform -translate-x-1/2 z-10 hidden md:block" />
 
                   {/* Content */}
-                  <div className=" md:w-1/2">
+                  <div className="md:w-1/2">
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       className="bg-gray-900 border border-emerald-900/30 rounded-2xl p-8 hover:border-emerald-800/50 transition-all duration-300 group"
+                      style={{ willChange: "transform" }}
                     >
                       <div className="flex items-start gap-4 mb-4">
                         <div className="w-12 h-12 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl flex items-center justify-center text-white flex-shrink-0">
@@ -1021,10 +1048,12 @@ const Education: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Education.displayName = "Education";
 
 // Professional Experience Section
-const Experience: React.FC = () => {
+const Experience: React.FC = React.memo(() => {
   return (
     <section
       id="experience"
@@ -1124,10 +1153,13 @@ const Experience: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Experience.displayName = "Experience";
 
 // Professional Contact Section
-const Contact: React.FC = () => {
+// Professional Contact Section
+const Contact: React.FC = React.memo(() => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -1135,9 +1167,112 @@ const Contact: React.FC = () => {
   });
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+  }>({});
+  const [touched, setTouched] = useState<{
+    name: boolean;
+    email: boolean;
+    message: boolean;
+  }>({
+    name: false,
+    email: false,
+    message: false,
+  });
+
+  // Email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Validate individual field
+  const validateField = (name: string, value: string) => {
+    const newErrors = { ...errors };
+
+    switch (name) {
+      case "name":
+        if (!value.trim()) {
+          newErrors.name = "Name is required";
+        } else if (value.trim().length < 2) {
+          newErrors.name = "Name must be at least 2 characters";
+        } else {
+          delete newErrors.name;
+        }
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          newErrors.email = "Email is required";
+        } else if (!emailRegex.test(value.toLowerCase())) {
+          newErrors.email = "Please enter a valid email address";
+        } else {
+          delete newErrors.email;
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Handle input change
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    // Validate on change if field has been touched
+    if (touched[name as keyof typeof touched]) {
+      validateField(name, value);
+    }
+  };
+
+  // Handle input blur
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setTouched({ ...touched, [name]: true });
+    validateField(name, value);
+  };
+
+  // Validate entire form
+  const validateForm = () => {
+    const newErrors: { name?: string; email?: string } = {};
+
+    // Validate name
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    // Validate email
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email.toLowerCase())) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Mark all fields as touched
+    setTouched({ name: true, email: true, message: true });
+
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+
+    if (loading || submitted) return;
     setLoading(true);
 
     try {
@@ -1145,9 +1280,9 @@ const Contact: React.FC = () => {
         SERVICE_ID,
         TEMPLATE_ID,
         {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
+          from_name: formData.name.trim(),
+          from_email: formData.email.trim().toLowerCase(),
+          message: formData.message.trim() || "No message provided",
         },
         PUBLIC_KEY
       );
@@ -1155,7 +1290,9 @@ const Contact: React.FC = () => {
       if (result.status === 200) {
         setSubmitted(true);
         setFormData({ name: "", email: "", message: "" });
-        setTimeout(() => setSubmitted(false), 3000);
+        setErrors({});
+        setTouched({ name: false, email: false, message: false });
+        setTimeout(() => setSubmitted(false), 5000);
       }
     } catch (err) {
       console.error("EmailJS Error:", err);
@@ -1164,6 +1301,7 @@ const Contact: React.FC = () => {
       setLoading(false);
     }
   };
+
   return (
     <section id="contact" className="py-24 relative overflow-hidden bg-black">
       <ProfessionalBackground />
@@ -1204,8 +1342,8 @@ const Contact: React.FC = () => {
                 Let's create something amazing together
               </h3>
               <p className="text-gray-400 text-lg mb-10 leading-relaxed">
-                I’m always interested in exploring new opportunities and
-                collaborations. Whether you’d like to discuss a project or
+                I'm always interested in exploring new opportunities and
+                collaborations. Whether you'd like to discuss a project or
                 simply connect, feel free to reach out!
               </p>
 
@@ -1235,6 +1373,7 @@ const Contact: React.FC = () => {
                     transition={{ delay: 0.4 + index * 0.1 }}
                     whileHover={{ scale: 1.02 }}
                     className="flex items-center gap-6 p-5 rounded-xl bg-gray-900 border border-emerald-900/30 hover:border-emerald-800/50 transition-all duration-300"
+                    style={{ willChange: "transform" }}
                   >
                     <div className="w-14 h-14 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl flex items-center justify-center text-2xl flex-shrink-0">
                       {item.icon}
@@ -1259,55 +1398,184 @@ const Contact: React.FC = () => {
               <form
                 onSubmit={handleSubmit}
                 className="bg-gray-900 border border-emerald-900/30 rounded-2xl p-8 space-y-6"
+                noValidate
               >
+                {/* Name Field */}
                 <div>
                   <input
                     type="text"
-                    placeholder="Your Name"
+                    id="name"
+                    name="name"
+                    placeholder="John Doe"
                     value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    className="w-full px-5 py-4 bg-gray-950 text-white rounded-xl border border-gray-800 focus:border-emerald-600 focus:outline-none transition-all placeholder-gray-500"
-                    required
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`w-full px-5 py-4 bg-gray-950 text-white rounded-xl border ${
+                      errors.name && touched.name
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-800 focus:border-emerald-600"
+                    } focus:outline-none transition-all placeholder-gray-500`}
                   />
+                  <AnimatePresence>
+                    {errors.name && touched.name && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="text-red-500 text-sm mt-2 flex items-center gap-1"
+                      >
+                        <span>⚠️</span>
+                        {errors.name}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                {/* Email Field */}
                 <div>
                   <input
                     type="email"
-                    placeholder="Your Email"
+                    id="email"
+                    name="email"
+                    placeholder="vinoth-coderx@example.com"
                     value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    className="w-full px-5 py-4 bg-gray-950 text-white rounded-xl border border-gray-800 focus:border-emerald-600 focus:outline-none transition-all placeholder-gray-500"
-                    required
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`w-full px-5 py-4 bg-gray-950 text-white rounded-xl border ${
+                      errors.email && touched.email
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-gray-800 focus:border-emerald-600"
+                    } focus:outline-none transition-all placeholder-gray-500`}
                   />
+                  <AnimatePresence>
+                    {errors.email && touched.email && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="text-red-500 text-sm mt-2 flex items-center gap-1"
+                      >
+                        <span>⚠️</span>
+                        {errors.email}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
+
+                {/* Message Field (Optional) */}
                 <div>
                   <textarea
-                    placeholder="Your Message"
+                    id="message"
+                    name="message"
+                    placeholder="Tell me about your needs (optional)..."
                     rows={5}
                     value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     className="w-full px-5 py-4 bg-gray-950 text-white rounded-xl border border-gray-800 focus:border-emerald-600 focus:outline-none resize-none transition-all placeholder-gray-500"
-                    required
                   />
                 </div>
-                <motion.button
-                  type="submit"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full px-8 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-900/50 transition-all duration-300"
-                >
-                  {loading
-                    ? "Sending..."
-                    : submitted
-                    ? "✓ Message Sent Successfully!"
-                    : "Send Message"}
-                </motion.button>
+
+                {/* Success Message */}
+                <AnimatePresence>
+                  {submitted && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      className="bg-emerald-900/20 border border-emerald-500/50 rounded-xl p-4 flex items-center gap-3"
+                    >
+                      <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg
+                          className="w-5 h-5 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-emerald-400 font-semibold">
+                          Message sent successfully!
+                        </p>
+                        <p className="text-emerald-500 text-sm">
+                          I'll get back to you soon.
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Submit Button */}
+                {
+                  <motion.button
+                    type="submit"
+                    disabled={loading || submitted}
+                    whileHover={!loading && !submitted ? { scale: 1.02 } : {}}
+                    whileTap={!loading && !submitted ? { scale: 0.98 } : {}}
+                    className={`w-full px-8 py-4 rounded-xl font-semibold shadow-lg transition-all duration-300 flex items-center justify-center gap-2 ${
+                      loading || submitted
+                        ? "bg-gray-700 cursor-not-allowed"
+                        : "bg-gradient-to-r from-emerald-600 to-green-600 hover:shadow-emerald-900/50"
+                    } text-white`}
+                    style={{
+                      willChange: "transform",
+                      marginTop: submitted ? 20 : 80,
+                    }}
+                  >
+                    {loading ? (
+                      <>
+                        <svg
+                          className="animate-spin h-5 w-5"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        <span>Sending...</span>
+                      </>
+                    ) : submitted ? (
+                      <>
+                        <span>✓</span>
+                        <span>Message Sent!</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Message</span>
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"
+                          />
+                        </svg>
+                      </>
+                    )}
+                  </motion.button>
+                }
               </form>
             </motion.div>
           </div>
@@ -1315,10 +1583,12 @@ const Contact: React.FC = () => {
       </div>
     </section>
   );
-};
+});
+
+Contact.displayName = "Contact";
 
 // Professional Footer
-const Footer: React.FC = () => {
+const Footer: React.FC = React.memo(() => {
   return (
     <footer className="relative py-12 overflow-hidden bg-black border-t border-emerald-900/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1340,7 +1610,7 @@ const Footer: React.FC = () => {
             {Object.entries(portfolioData.personal.social).map(
               ([platform, url], index) => (
                 <motion.a
-                  key={index}
+                  key={platform}
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -1350,6 +1620,7 @@ const Footer: React.FC = () => {
                   transition={{ delay: index * 0.1 }}
                   whileHover={{ scale: 1.1 }}
                   className="text-gray-400 hover:text-emerald-500 transition-colors capitalize text-sm font-medium"
+                  style={{ willChange: "transform" }}
                 >
                   {platform}
                 </motion.a>
@@ -1364,24 +1635,21 @@ const Footer: React.FC = () => {
           viewport={{ once: true }}
           className="mt-8 h-px bg-gradient-to-r from-transparent via-emerald-900/50 to-transparent"
         />
-        {/* 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-gray-500 text-sm mt-6"
-        >
-          Built with React, TypeScript, Tailwind CSS, and Framer Motion
-        </motion.p> */}
       </div>
     </footer>
   );
-};
+});
+
+Footer.displayName = "Footer";
 
 // Main App Component
 const Portfolio: React.FC = () => {
   const [showSplash, setShowSplash] = useState<boolean>(true);
   const [activeSection, setActiveSection] = useState<string>("about");
+
+  const handleSplashComplete = useCallback(() => {
+    setShowSplash(false);
+  }, []);
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -1404,14 +1672,14 @@ const Portfolio: React.FC = () => {
       if (current) setActiveSection(current);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div className="bg-black min-h-screen overflow-x-hidden">
       <AnimatePresence>
-        {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+        {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
       </AnimatePresence>
       {!showSplash && (
         <>
