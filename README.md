@@ -240,10 +240,9 @@ Contributions, issues, and feature requests are welcome!
 
 ## 👨‍💻 Author
 
-**Alex Johnson**
-- Website: [alexjohnson.dev](https://alexjohnson.dev)
-- GitHub: [@alexjohnson](https://github.com/alexjohnson)
-- LinkedIn: [Alex Johnson](https://linkedin.com/in/alexjohnson)
+**Vinoth R**
+- GitHub: [@vinoth-coderx](https://github.com/vinoth-coderx)
+- LinkedIn: [Vinoth R](https://www.linkedin.com/in/vinoth-r-586103324)
 
 ## 🙏 Acknowledgments
 
