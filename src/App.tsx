@@ -27,7 +27,7 @@ const Portfolio: React.FC = () => {
         "experience",
         "contact",
       ];
-
+      
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -36,7 +36,7 @@ const Portfolio: React.FC = () => {
         }
         return false;
       });
-
+      
       if (current && current !== activeSection) {
         setActiveSection(current);
       }
