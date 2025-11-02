@@ -1,32 +1,18 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { portfolioData } from "../data";
 import Background from "./Background";
 
-interface ExperienceProps {
-  isLowPerformance?: boolean;
-}
-
-const Experience: React.FC<ExperienceProps> = ({ isLowPerformance = false }) => {
-  const fadeIn = isLowPerformance
-    ? {}
-    : {
-        initial: { opacity: 0, x: -20 },
-        whileInView: { opacity: 1, x: 0 },
-        viewport: { once: true, margin: "-50px" },
-        transition: { duration: 0.5 },
-      };
-
+const Experience: React.FC = () => {
   return (
     <section
       id="experience"
       className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black"
     >
-      <Background isLowPerformance={isLowPerformance} />
+      <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12 md:mb-16 animate-fade-in-up">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4">
             Work <span className="text-emerald-500">Experience</span>
           </h2>
@@ -39,10 +25,14 @@ const Experience: React.FC<ExperienceProps> = ({ isLowPerformance = false }) => 
 
           <div className="space-y-8 md:space-y-12">
             {portfolioData.experience.map((exp, index) => (
-              <motion.div key={index} {...fadeIn} className="relative">
+              <div 
+                key={index} 
+                className="relative animate-fade-in-up"
+                style={{ animationDelay: `${index * 150}ms` }}
+              >
                 <div className="absolute left-3 md:left-6 w-2 h-2 md:w-4 md:h-4 bg-emerald-600 rounded-full border-2 md:border-4 border-black hidden md:block" />
 
-                <div className="md:ml-16 lg:ml-20 bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 hover:border-emerald-800/50 transition-all duration-300">
+                <div className="md:ml-16 lg:ml-20 bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 hover:border-emerald-800/50 transition-all duration-300 hover-lift">
                   <div className="flex items-start gap-3 md:gap-4 mb-3 md:mb-4">
                     <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-emerald-600 to-green-700 rounded-lg md:rounded-xl flex items-center justify-center text-white font-bold text-lg md:text-xl flex-shrink-0">
                       {exp.company[0]}
@@ -88,7 +78,7 @@ const Experience: React.FC<ExperienceProps> = ({ isLowPerformance = false }) => 
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

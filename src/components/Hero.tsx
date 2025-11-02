@@ -1,52 +1,34 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { portfolioData } from "../data";
 import { FaRocket } from "react-icons/fa";
 import Background from "./Background";
 import SocialIcons from "./SocialIcons";
 
-interface HeroProps {
-  isLowPerformance?: boolean;
-}
-
-const Hero: React.FC<HeroProps> = ({ isLowPerformance = false }) => {
-  // Simpler animations for mobile
-  const fadeIn = isLowPerformance
-    ? {}
-    : {
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-100px" },
-        transition: { duration: 0.5 },
-      };
-
+const Hero: React.FC = () => {
   return (
     <section
       id="about"
       className="min-h-screen py-20 md:py-24 relative overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black flex items-center"
     >
-      <Background isLowPerformance={isLowPerformance} />
+      <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Profile Image */}
-          <motion.div {...fadeIn} className="relative order-1 lg:order-1">
-            <div className="relative overflow-hidden rounded-2xl group max-w-md mx-auto">
+          <div className="relative order-1 lg:order-1 animate-fade-in-up">
+            <div className="relative overflow-hidden rounded-2xl group max-w-md mx-auto hover-lift">
               <img
                 src={portfolioData.personal.profileImage}
                 alt={portfolioData.personal.name}
-                className="w-full h-auto"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
                 loading="eager"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" /> */}
             </div>
-          </motion.div>
+          </div>
 
           {/* Content */}
-          <motion.div
-            {...fadeIn}
-            className="space-y-4 md:space-y-6 order-2 lg:order-2"
-          >
+          <div className="space-y-4 md:space-y-6 order-2 lg:order-2 animate-fade-in-up delay-200">
             <div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 leading-tight">
                 {portfolioData.personal.name}
@@ -66,14 +48,14 @@ const Hero: React.FC<HeroProps> = ({ isLowPerformance = false }) => {
 
             {/* Social Icons */}
             <div className="pt-4">
-              <SocialIcons isLowPerformance={isLowPerformance} />
+              <SocialIcons />
             </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 md:pt-6">
               <a
                 href={portfolioData.personal.resume}
-                className="inline-flex items-center justify-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-900/50 transition-all text-sm md:text-base"
+                className="inline-flex items-center justify-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl font-semibold shadow-lg hover:shadow-emerald-900/50 transition-all text-sm md:text-base hover-lift"
               >
                 <span>Download Resume</span>
                 <svg
@@ -99,7 +81,7 @@ const Hero: React.FC<HeroProps> = ({ isLowPerformance = false }) => {
                 <FaRocket className="w-3 h-3 md:w-4 md:h-4" />
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

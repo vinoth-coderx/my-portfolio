@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "../data";
 import emailjs from "emailjs-com";
 import Background from "./Background";
@@ -8,17 +7,13 @@ const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
-interface ContactProps {
-  isLowPerformance?: boolean;
-}
-
 interface FormData {
   name: string;
   email: string;
   message: string;
 }
 
-const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
+const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -138,11 +133,11 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
 
   return (
     <section id="contact" className="py-16 md:py-24 relative overflow-hidden bg-black">
-      <Background isLowPerformance={isLowPerformance} />
+      <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12 md:mb-16 animate-fade-in-up">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4">
             Get In <span className="text-emerald-500">Touch</span>
           </h2>
@@ -151,7 +146,7 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
 
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto">
           {/* Info Section */}
-          <div>
+          <div className="animate-fade-in-up delay-200">
             <h3 className="text-xl md:text-2xl font-bold text-white mb-4 md:mb-6">
               Let's create something amazing together
             </h3>
@@ -167,7 +162,7 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl bg-gray-900 border border-emerald-900/30"
+                  className="flex items-center gap-4 md:gap-6 p-4 md:p-5 rounded-xl bg-gray-900 border border-emerald-900/30 hover-lift"
                 >
                   <div className="w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl flex items-center justify-center text-xl md:text-2xl flex-shrink-0">
                     {item.icon}
@@ -186,7 +181,7 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
           </div>
 
           {/* Form Section */}
-          <div>
+          <div className="animate-fade-in-up delay-300">
             <form
               onSubmit={handleSubmit}
               className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 space-y-4 md:space-y-6"
@@ -207,18 +202,11 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
                       : "border-gray-800 focus:border-emerald-600"
                   } focus:outline-none transition-all placeholder-gray-500 text-sm md:text-base`}
                 />
-                <AnimatePresence>
-                  {errors.name && touched.name && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="text-red-500 text-xs md:text-sm mt-2"
-                    >
-                      ⚠️ {errors.name}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
+                {errors.name && touched.name && (
+                  <p className="text-red-500 text-xs md:text-sm mt-2 animate-fade-in">
+                    ⚠️ {errors.name}
+                  </p>
+                )}
               </div>
 
               {/* Email */}
@@ -236,18 +224,11 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
                       : "border-gray-800 focus:border-emerald-600"
                   } focus:outline-none transition-all placeholder-gray-500 text-sm md:text-base`}
                 />
-                <AnimatePresence>
-                  {errors.email && touched.email && (
-                    <motion.p
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0 }}
-                      className="text-red-500 text-xs md:text-sm mt-2"
-                    >
-                      ⚠️ {errors.email}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
+                {errors.email && touched.email && (
+                  <p className="text-red-500 text-xs md:text-sm mt-2 animate-fade-in">
+                    ⚠️ {errors.email}
+                  </p>
+                )}
               </div>
 
               {/* Message */}
@@ -263,30 +244,23 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
               </div>
 
               {/* Success Message */}
-              <AnimatePresence>
-                {submitted && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="bg-emerald-900/20 border border-emerald-500/50 rounded-lg md:rounded-xl p-3 md:p-4 flex items-center gap-2 md:gap-3"
-                  >
-                    <div className="w-6 h-6 md:w-8 md:h-8 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <svg className="w-3 h-3 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="text-emerald-400 font-semibold text-sm md:text-base">
-                        Message sent successfully!
-                      </p>
-                      <p className="text-emerald-500 text-xs md:text-sm">
-                        I'll get back to you soon.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {submitted && (
+                <div className="bg-emerald-900/20 border border-emerald-500/50 rounded-lg md:rounded-xl p-3 md:p-4 flex items-center gap-2 md:gap-3 animate-fade-in">
+                  <div className="w-6 h-6 md:w-8 md:h-8 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <svg className="w-3 h-3 md:w-5 md:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-emerald-400 font-semibold text-sm md:text-base">
+                      Message sent successfully!
+                    </p>
+                    <p className="text-emerald-500 text-xs md:text-sm">
+                      I'll get back to you soon.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Submit Button */}
               <button
@@ -295,7 +269,7 @@ const Contact: React.FC<ContactProps> = ({ isLowPerformance = false }) => {
                 className={`w-full px-6 md:px-8 py-3 md:py-4 rounded-lg md:rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm md:text-base ${
                   loading || submitted
                     ? "bg-gray-700 cursor-not-allowed"
-                    : "bg-gradient-to-r from-emerald-600 to-green-600 hover:shadow-lg hover:shadow-emerald-900/50"
+                    : "bg-gradient-to-r from-emerald-600 to-green-600 hover:shadow-lg hover:shadow-emerald-900/50 hover-lift"
                 } text-white`}
               >
                 {loading ? (

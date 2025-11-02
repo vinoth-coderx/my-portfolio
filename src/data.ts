@@ -97,7 +97,8 @@ export const portfolioData: PortfolioData = {
     social: {
       github: "https://github.com/vinoth-coderx",
       linkedin: "https://www.linkedin.com/in/vinoth-r-586103324",
-      medium: "https://medium.com/@vinoth_1209/how-to-improve-code-security-best-practices-to-stay-safe-from-threats-ced83b7d2787",
+      medium:
+        "https://medium.com/@vinoth_1209/how-to-improve-code-security-best-practices-to-stay-safe-from-threats-ced83b7d2787",
     },
   },
   skills: [
@@ -138,7 +139,6 @@ export const portfolioData: PortfolioData = {
         { name: "Postman", level: 85 },
         { name: "Android Studio", level: 80 },
         { name: "Xcode", level: 75 },
-
       ],
     },
     {
@@ -219,7 +219,7 @@ export const portfolioData: PortfolioData = {
       title: "Real-time Features",
       description:
         "Implementation of real-time features like chat, audio/video calls, and live updates.",
-      features: [ "Jitsi", "Real-time Chat", "Live Updates"],
+      features: ["Jitsi", "Real-time Chat", "Live Updates"],
     },
   ],
   projects: [
@@ -312,9 +312,7 @@ export const portfolioData: PortfolioData = {
       institution: "Government Arts College, Salem",
       period: "2018 - 2021",
       location: "Salem, India",
-      achievements: [
-        "Completed degree in Economics",
-      ],
+      achievements: ["Completed degree in Economics"],
     },
     {
       degree: "Full Stack Development Course",
@@ -329,12 +327,13 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      degree: "HSC",
+      degree: "SSLC & HSC",
       institution: "S.M.H. School, Tharamangalam",
-      period: "2018",
+      period: "2015-2018",
       location: "Salem, India",
       achievements: [
-        "Completed Higher Secondary Education",
+        "Successfully completed Secondary and Higher Secondary Education with strong academic performance.",
+        "Actively participated in school cultural and sports events.",
       ],
     },
   ],

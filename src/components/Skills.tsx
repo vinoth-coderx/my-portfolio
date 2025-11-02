@@ -1,26 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { portfolioData } from "../data";
 import Background from "./Background";
 
-interface SkillsProps {
-  isLowPerformance?: boolean;
-}
-
-// Optimized animated number component
-const AnimatedNumber: React.FC<{ value: number; isLowPerformance?: boolean }> = ({ 
-  value,
-  isLowPerformance = false 
-}) => {
+// Simple animated number with CSS
+const AnimatedNumber: React.FC<{ value: number }> = ({ value }) => {
   const [displayValue, setDisplayValue] = useState(0);
   const [hasAnimated, setHasAnimated] = useState(false);
   const elementRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (hasAnimated || isLowPerformance) {
-      setDisplayValue(value);
-      return;
-    }
+    if (hasAnimated) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -55,21 +44,21 @@ const AnimatedNumber: React.FC<{ value: number; isLowPerformance?: boolean }> = 
         observer.unobserve(elementRef.current);
       }
     };
-  }, [value, hasAnimated, isLowPerformance]);
+  }, [value, hasAnimated]);
 
   return <span ref={elementRef}>{displayValue}+</span>;
 };
 
-const Skills: React.FC<SkillsProps> = ({ isLowPerformance = false }) => {
+const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>(0);
 
   return (
     <section id="skills" className="py-16 md:py-24 relative overflow-hidden bg-black">
-      <Background isLowPerformance={isLowPerformance} />
+      <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12 md:mb-16 animate-fade-in-up">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4">
             <span className="text-white">Skills & </span>
             <span className="text-emerald-500">Expertise</span>
@@ -81,12 +70,12 @@ const Skills: React.FC<SkillsProps> = ({ isLowPerformance = false }) => {
         </div>
 
         {/* Categories */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12 px-2">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-8 md:mb-12 px-2 animate-fade-in-up delay-200">
           {portfolioData.skills.map((skill, index) => (
             <button
               key={index}
               onClick={() => setSelectedCategory(index)}
-              className={`px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 text-sm md:text-base ${
+              className={`px-4 md:px-6 py-2 md:py-3 rounded-xl font-medium transition-all duration-300 flex items-center gap-2 text-sm md:text-base hover-lift ${
                 selectedCategory === index
                   ? "bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg"
                   : "bg-gray-900 text-gray-400 border border-emerald-900/30 hover:text-emerald-500 hover:border-emerald-800/50"
@@ -100,49 +89,38 @@ const Skills: React.FC<SkillsProps> = ({ isLowPerformance = false }) => {
 
         {/* Skills Display */}
         <div className="min-h-[300px] md:min-h-[400px]">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={selectedCategory}
-              initial={isLowPerformance ? {} : { opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={isLowPerformance ? {} : { opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="grid sm:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto"
-            >
-              {portfolioData.skills[selectedCategory].items.map((skill, index) => (
-                <div
-                  key={`${skill.name}-${index}`}
-                  className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-4 md:p-6 hover:border-emerald-800/50 transition-all duration-300"
-                >
-                  <div className="flex items-center justify-between mb-3 md:mb-4">
-                    <h3 className="text-base md:text-lg font-semibold text-white">
-                      {skill.name}
-                    </h3>
-                    <span className="text-emerald-500 font-bold text-base md:text-lg">
-                      {skill.level}%
-                    </span>
-                  </div>
-
-                  <div className="relative h-2 md:h-3 bg-gray-800 rounded-full overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{
-                        duration: isLowPerformance ? 0.5 : 1,
-                        delay: isLowPerformance ? 0 : index * 0.05,
-                        ease: "easeOut",
-                      }}
-                      className="absolute h-full bg-gradient-to-r from-emerald-600 to-green-600 rounded-full"
-                    />
-                  </div>
+          <div className="grid sm:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
+            {portfolioData.skills[selectedCategory].items.map((skill, index) => (
+              <div
+                key={`${skill.name}-${index}`}
+                className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-4 md:p-6 hover:border-emerald-800/50 transition-all duration-300 animate-fade-in-up hover-lift"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div className="flex items-center justify-between mb-3 md:mb-4">
+                  <h3 className="text-base md:text-lg font-semibold text-white">
+                    {skill.name}
+                  </h3>
+                  <span className="text-emerald-500 font-bold text-base md:text-lg">
+                    {skill.level}%
+                  </span>
                 </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
+
+                <div className="relative h-2 md:h-3 bg-gray-800 rounded-full overflow-hidden">
+                  <div
+                    className="absolute h-full bg-gradient-to-r from-emerald-600 to-green-600 rounded-full transition-all duration-1000 ease-out"
+                    style={{ 
+                      width: `${skill.level}%`,
+                      transitionDelay: `${index * 50}ms` 
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Stats Section */}
-        <div className="mt-12 md:mt-20">
+        <div className="mt-12 md:mt-20 animate-fade-in-up delay-400">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto">
             {[
               {
@@ -166,16 +144,13 @@ const Skills: React.FC<SkillsProps> = ({ isLowPerformance = false }) => {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 text-center"
+                className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 text-center hover-lift hover-glow"
               >
                 <div className={`text-3xl md:text-4xl mb-3 md:mb-4 ${stat.color}`}>
                   {stat.icon}
                 </div>
                 <div className={`text-4xl md:text-5xl font-bold ${stat.color} mb-2`}>
-                  <AnimatedNumber 
-                    value={stat.value || 0} 
-                    isLowPerformance={isLowPerformance}
-                  />
+                  <AnimatedNumber value={stat.value || 0} />
                 </div>
                 <div className="text-gray-300 font-semibold text-sm md:text-lg">
                   {stat.label}
