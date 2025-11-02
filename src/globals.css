@@ -1,9 +1,10 @@
+/* Import animations FIRST - before everything else */
+@import './animations.css';
+
+/* Then Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Import animations */
-@import './animations.css';
 
 /* Base styles */
 * {

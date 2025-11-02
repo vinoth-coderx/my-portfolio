@@ -1,19 +1,11 @@
 import React from "react";
 import { portfolioData } from "../data";
-import {
-  FaGraduationCap,
-  FaAward,
-  FaCalendarAlt,
-  FaMapMarkerAlt,
-} from "react-icons/fa";
+import { FaGraduationCap, FaAward, FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 import Background from "./Background";
 
 const Education: React.FC = () => {
   return (
-    <section
-      id="education"
-      className="py-16 md:py-24 relative overflow-hidden bg-black"
-    >
+    <section id="education" className="py-16 md:py-24 relative overflow-hidden bg-black">
       <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -83,10 +75,7 @@ const Education: React.FC = () => {
                         Key Highlights:
                       </p>
                       {edu.achievements.map((achievement, i) => (
-                        <div
-                          key={i}
-                          className="flex items-start gap-2 md:gap-3"
-                        >
+                        <div key={i} className="flex items-start gap-2 md:gap-3">
                           <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-emerald-500 rounded-full flex-shrink-0 mt-1.5 md:mt-2" />
                           <p className="text-gray-400 text-xs md:text-sm leading-relaxed">
                             {achievement}
