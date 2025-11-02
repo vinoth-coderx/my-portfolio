@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
                 className="w-full h-auto transition-transform duration-500 group-hover:scale-105"
                 loading="eager"
               />
-              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" /> */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
             </div>
           </div>
 

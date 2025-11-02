@@ -1,4 +1,6 @@
-/* Pure CSS Animations - Ultra Lightweight */
+/* ===================================
+   PURE CSS ANIMATIONS - ULTRA LIGHTWEIGHT
+   =================================== */
 
 /* Fade in animation */
 @keyframes fadeIn {
@@ -10,7 +12,7 @@
   }
 }
 
-/* Fade in up */
+/* Fade in up (scroll animation) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -82,16 +84,6 @@
   }
 }
 
-/* Progress bar fill */
-@keyframes progressFill {
-  from {
-    width: 0;
-  }
-  to {
-    width: var(--progress-width);
-  }
-}
-
 /* Slide in menu */
 @keyframes slideInMenu {
   from {
@@ -112,7 +104,17 @@
   }
 }
 
-/* Utility Classes */
+/* Loading spinner */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===================================
+   UTILITY CLASSES
+   =================================== */
+
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
 }
@@ -141,14 +143,25 @@
   animation: pulseSlow 8s ease-in-out infinite;
 }
 
-/* Delay classes */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* ===================================
+   DELAY CLASSES
+   =================================== */
+
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }
 .delay-300 { animation-delay: 0.3s; }
 .delay-400 { animation-delay: 0.4s; }
 .delay-500 { animation-delay: 0.5s; }
+.delay-700 { animation-delay: 0.7s; }
 
-/* Smooth transitions */
+/* ===================================
+   SMOOTH TRANSITIONS
+   =================================== */
+
 .transition-smooth {
   transition: all 0.3s ease;
 }
@@ -157,19 +170,12 @@
   transition: all 0.15s ease;
 }
 
-/* Hide initially for animations */
-.animate-on-scroll {
-  opacity: 0;
-}
+/* ===================================
+   HOVER EFFECTS - CSS ONLY
+   =================================== */
 
-.animate-on-scroll.visible {
-  opacity: 1;
-  animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* Hover effects - CSS only */
 .hover-lift {
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
@@ -192,18 +198,10 @@
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
 }
 
-/* Loading spinner */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* ===================================
+   MENU ANIMATIONS
+   =================================== */
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Menu animations */
 .menu-enter {
   animation: slideInMenu 0.3s ease-out forwards;
 }
@@ -212,8 +210,41 @@
   animation: slideOutMenu 0.3s ease-out forwards;
 }
 
-/* Remove animations on mobile for better performance */
+/* ===================================
+   SCROLL REVEAL ANIMATIONS
+   =================================== */
+
+/* Elements start invisible and animate in when scrolled into view */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger animation for multiple elements */
+.scroll-reveal-stagger {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.scroll-reveal-stagger:nth-child(1) { transition-delay: 0.1s; }
+.scroll-reveal-stagger:nth-child(2) { transition-delay: 0.2s; }
+.scroll-reveal-stagger:nth-child(3) { transition-delay: 0.3s; }
+.scroll-reveal-stagger:nth-child(4) { transition-delay: 0.4s; }
+.scroll-reveal-stagger:nth-child(5) { transition-delay: 0.5s; }
+
+/* ===================================
+   MOBILE OPTIMIZATIONS
+   =================================== */
+
 @media (max-width: 768px) {
+  /* Simpler animations on mobile */
   .animate-fade-in-up,
   .animate-slide-in-left,
   .animate-slide-in-right,
@@ -221,16 +252,31 @@
     animation: fadeIn 0.3s ease-out forwards;
   }
   
+  /* Remove delays on mobile */
   .delay-100,
   .delay-200,
   .delay-300,
   .delay-400,
-  .delay-500 {
+  .delay-500,
+  .delay-700 {
     animation-delay: 0s !important;
+  }
+
+  /* Faster transitions on mobile */
+  .transition-smooth {
+    transition: all 0.2s ease;
+  }
+
+  /* Less dramatic hover effects on mobile */
+  .hover-lift:hover {
+    transform: translateY(-2px);
   }
 }
 
-/* Reduce motion for users who prefer it */
+/* ===================================
+   REDUCE MOTION PREFERENCE
+   =================================== */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -238,5 +284,19 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* ===================================
+   SMOOTH SCROLL BEHAVIOR
+   =================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scroll padding for fixed navbar */
+html {
+  scroll-padding-top: 80px;
 }
