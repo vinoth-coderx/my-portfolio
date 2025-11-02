@@ -1,32 +1,18 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { portfolioData } from "../data";
 import Background from "./Background";
 
-interface ServicesProps {
-  isLowPerformance?: boolean;
-}
-
-const Services: React.FC<ServicesProps> = ({ isLowPerformance = false }) => {
-  const fadeIn = isLowPerformance
-    ? {}
-    : {
-        initial: { opacity: 0, y: 20 },
-        whileInView: { opacity: 1, y: 0 },
-        viewport: { once: true, margin: "-50px" },
-        transition: { duration: 0.5 },
-      };
-
+const Services: React.FC = () => {
   return (
     <section
       id="services"
       className="py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-black via-gray-950 to-black"
     >
-      <Background isLowPerformance={isLowPerformance} />
+      <Background />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16">
+        <div className="text-center mb-12 md:mb-16 animate-fade-in-up">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4">
             My <span className="text-emerald-500">Services</span>
           </h2>
@@ -39,12 +25,12 @@ const Services: React.FC<ServicesProps> = ({ isLowPerformance = false }) => {
         {/* Services Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {portfolioData.services.map((service, index) => (
-            <motion.div
+            <div
               key={index}
-              {...fadeIn}
-              className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 hover:border-emerald-800/50 transition-all duration-300"
+              className="bg-gray-900 border border-emerald-900/30 rounded-xl md:rounded-2xl p-6 md:p-8 hover:border-emerald-800/50 transition-all duration-300 animate-fade-in-up hover-lift hover-glow"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl md:rounded-2xl flex items-center justify-center text-white mb-4 md:mb-6">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-emerald-600 to-green-700 rounded-xl md:rounded-2xl flex items-center justify-center text-white mb-4 md:mb-6 hover-scale">
                 <span className="text-xl md:text-2xl">{service.icon}</span>
               </div>
 
@@ -64,7 +50,7 @@ const Services: React.FC<ServicesProps> = ({ isLowPerformance = false }) => {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

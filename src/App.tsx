@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Skills from "./components/Skills";
@@ -10,19 +9,9 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import SplashScreen from "./components/SplashScreen";
 
-// Detect if device is mobile for performance optimization
-const isMobile = () => {
-  return (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    ) || window.innerWidth < 768
-  );
-};
-
 const Portfolio: React.FC = () => {
   const [showSplash, setShowSplash] = useState<boolean>(true);
   const [activeSection, setActiveSection] = useState<string>("about");
-  const [isLowPerformance] = useState<boolean>(isMobile());
 
   const handleSplashComplete = useCallback(() => {
     setShowSplash(false);
@@ -53,35 +42,23 @@ const Portfolio: React.FC = () => {
       }
     };
 
-    // Use passive listener for better scroll performance
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [activeSection]);
 
-  // Pass performance context to children
   return (
     <div className="bg-black min-h-screen overflow-x-hidden">
-      <AnimatePresence mode="wait">
-        {showSplash && (
-          <SplashScreen
-            onComplete={handleSplashComplete}
-            isLowPerformance={isLowPerformance}
-          />
-        )}
-      </AnimatePresence>
-
-      {!showSplash && (
+      {showSplash ? (
+        <SplashScreen onComplete={handleSplashComplete} />
+      ) : (
         <>
-          <Navbar
-            activeSection={activeSection}
-            isLowPerformance={isLowPerformance}
-          />
-          <Hero isLowPerformance={isLowPerformance} />
-          <Skills isLowPerformance={isLowPerformance} />
-          <Services isLowPerformance={isLowPerformance} />
-          <Education isLowPerformance={isLowPerformance} />
-          <Experience isLowPerformance={isLowPerformance} />
-          <Contact isLowPerformance={isLowPerformance} />
+          <Navbar activeSection={activeSection} />
+          <Hero />
+          <Skills />
+          <Services />
+          <Education />
+          <Experience />
+          <Contact />
           <Footer />
         </>
       )}

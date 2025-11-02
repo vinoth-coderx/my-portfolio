@@ -9,10 +9,6 @@ import {
   FaMediumM,
 } from "react-icons/fa";
 
-interface SocialIconsProps {
-  isLowPerformance?: boolean;
-}
-
 const getSocialIcon = (platform: string) => {
   const iconClass = "w-4 h-4 md:w-5 md:h-5";
   switch (platform.toLowerCase()) {
@@ -33,7 +29,7 @@ const getSocialIcon = (platform: string) => {
   }
 };
 
-const SocialIcons: React.FC<SocialIconsProps> = () => {
+const SocialIcons: React.FC = () => {
   return (
     <div className="flex gap-3 md:gap-4">
       {Object.entries(portfolioData.personal.social).map(([platform, url]) => (
@@ -42,7 +38,7 @@ const SocialIcons: React.FC<SocialIconsProps> = () => {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gray-900 border border-emerald-900/30 flex items-center justify-center text-gray-400 hover:text-emerald-500 hover:border-emerald-600 transition-all shadow-lg"
+          className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-gray-900 border border-emerald-900/30 flex items-center justify-center text-gray-400 hover:text-emerald-500 hover:border-emerald-600 transition-all shadow-lg hover-lift"
           aria-label={platform}
         >
           {getSocialIcon(platform)}

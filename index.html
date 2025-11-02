@@ -2,16 +2,49 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    
+    <!-- Favicon - Classic ICO format (Works everywhere!) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Modern SVG icon (Optional - for browsers that support it) -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    
+    <!-- Apple Touch Icon (iOS home screen) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    
+    <!-- PNG Icons (Optional - for better quality on specific sizes) -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Professional portfolio of Vinoth R - Software Developer" />
-    <meta name="keywords" content="portfolio, developer, full stack, react, typescript" />
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Professional portfolio of Vinoth R - Full Stack Software Developer specializing in React, TypeScript, and modern web technologies" />
+    <meta name="keywords" content="Vinoth R, Software Developer, Full Stack Developer, React Developer, TypeScript, Portfolio, Web Development" />
     <meta name="author" content="Vinoth R" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Vinoth R - Software Developer Portfolio" />
+    <meta property="og:description" content="Professional portfolio showcasing my work as a Full Stack Software Developer" />
+    <meta property="og:image" content="/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Vinoth R - Software Developer Portfolio" />
+    <meta name="twitter:description" content="Professional portfolio showcasing my work as a Full Stack Software Developer" />
+    <meta name="twitter:image" content="/og-image.png" />
+    
+    <!-- Theme Color - Matches your portfolio's emerald green -->
+    <meta name="theme-color" content="#10b981" />
+
+    <!-- style sheet -->
+    <link rel="stylesheet" href="/src/index.css" />
+
     <title>Vinoth R - Software Developer Portfolio</title>
-    <script type="module" crossorigin src="./assets/index-De3jBLpE.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-C4PJ2xs9.css">
   </head>
   <body>
     <div id="root"></div>
+     <script type="module" src="/src/main.tsx" ></script>
   </body>
 </html>
