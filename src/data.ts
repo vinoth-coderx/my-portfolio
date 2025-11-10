@@ -1,5 +1,5 @@
 import profile from "../src/assets/profile.png";
-
+import resume from '../src/assets/VINOTH_R.pdf'
 // Type Definitions
 interface SocialLinks {
   github?: string;
@@ -93,7 +93,7 @@ export const portfolioData: PortfolioData = {
     location: "Chennai, India",
     profileImage: profile,
     bio: "Passionate Software Developer experienced in building scalable mobile and web applications using React and React Native. At itTrident, I’ve contributed to projects like D-Tools, HKM, MFU, and SCC, focusing on performance, clean architecture, and seamless user experiences. Driven by continuous learning and innovation, I strive to create impactful, high-quality software solutions.",
-    resume: "#",
+    resume: resume,
     social: {
       github: "https://github.com/vinoth-coderx",
       linkedin: "https://www.linkedin.com/in/vinoth-r-586103324",
@@ -222,47 +222,78 @@ export const portfolioData: PortfolioData = {
       features: ["Jitsi", "Real-time Chat", "Live Updates"],
     },
   ],
-  projects: [
-    {
-      title: "CRM Application",
-      description:
-        "Feature-rich CRM application with real-time chat, audio/video calls, and efficient customer management system.",
-      tech: [
-        "React",
-        "Redux",
-        "RTK Query",
-        "Node.js",
-        "MongoDB",
-        "Jitsi",
-        "Knowlarity",
-        "Tailwind CSS",
-      ],
-      image:
-        "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&h=500&fit=crop",
-      demo: "#",
-      github: "#",
-    },
-    {
-      title: "Real-time Weather App",
-      description:
-        "React Native weather application providing accurate forecasts with cross-platform compatibility.",
-      tech: ["React Native", "Expo", "Node.js", "MongoDB", "Tailwind CSS"],
-      image:
-        "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=500&fit=crop",
-      demo: "#",
-      github: "#",
-    },
-    {
-      title: "Slot Booking System",
-      description:
-        "Time slot booking feature for special offers with seamless user experience and cross-platform support.",
-      tech: ["React Native", "Expo", "Node.js", "MongoDB"],
-      image:
-        "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?w=800&h=500&fit=crop",
-      demo: "#",
-      github: "#",
-    },
-  ],
+ projects: [
+  {
+    title: "CRM Application",
+    description:
+      "Feature-rich CRM application with real-time chat, audio/video calls, and efficient customer management system.",
+    tech: [
+      "React",
+      "Redux",
+      "RTK Query",
+      "Node.js",
+      "MongoDB",
+      "Jitsi",
+      "Knowlarity",
+      "Tailwind CSS",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+  {
+    title: "Real-time Weather App",
+    description:
+      "React Native weather application providing accurate forecasts with cross-platform compatibility.",
+    tech: ["React Native", "Expo", "Node.js", "MongoDB", "Tailwind CSS"],
+    image:
+      "https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+  {
+    title: "Hare Krishna Movement (HKM)",
+    description:
+      "Developed both web and mobile platforms for HKM to manage temple events, donations, and volunteer coordination efficiently.",
+    tech: ["React", "React Native", "Redux", "Node.js", "Express.js", "MongoDB", "Tailwind CSS"],
+    image:
+      "https://images.unsplash.com/photo-1505685296765-3a2736de412f?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+  {
+    title: "D-Tools App",
+    description:
+      "A productivity and management mobile application built with React Native for internal business tools and automation.",
+    tech: ["React Native", "Redux Toolkit", "RTK Query", "Node.js", "MongoDB"],
+    image:
+      "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+  {
+    title: "SCC Project (Signature Chess Club)",
+    description:
+      "Web platform designed for Signature Chess Club to manage member registrations, tournaments, and event coordination efficiently.",
+    tech: ["React.js", "Redux", "Node.js", "REST APIs", "Tailwind CSS"],
+    image:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+  {
+    title: "MFU Project (Mutual Fund Utility)",
+    description:
+      "Mutual Fund Utility platform developed to manage data synchronization, analytics, and offline support for field operations.",
+    tech: ["React.js", "Redux", "Node.js", "MongoDB", "REST APIs"],
+    image:
+      "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?w=800&h=500&fit=crop",
+    demo: "#",
+    github: "#",
+  },
+],
+
   experience: [
     {
       title: "Software Developer",
@@ -339,7 +370,7 @@ export const portfolioData: PortfolioData = {
   ],
   others: {
     technologies: 15,
-    experience: 3.1,
+    experience: 2.8,
     projects: 10,
     certifications: 1,
   },

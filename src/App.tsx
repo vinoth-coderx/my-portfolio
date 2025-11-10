@@ -8,6 +8,7 @@ import Experience from "./components/Experience";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import SplashScreen from "./components/SplashScreen";
+// import ResumeTemplates from "./components/templates/ResumeTemplates";
 
 const Portfolio: React.FC = () => {
   const [showSplash, setShowSplash] = useState<boolean>(true);
@@ -27,7 +28,7 @@ const Portfolio: React.FC = () => {
         "experience",
         "contact",
       ];
-      
+
       const current = sections.find((section) => {
         const element = document.getElementById(section);
         if (element) {
@@ -36,7 +37,7 @@ const Portfolio: React.FC = () => {
         }
         return false;
       });
-      
+
       if (current && current !== activeSection) {
         setActiveSection(current);
       }
@@ -61,6 +62,7 @@ const Portfolio: React.FC = () => {
           <Contact />
           <Footer />
         </>
+        // <ResumeTemplates />
       )}
     </div>
   );
